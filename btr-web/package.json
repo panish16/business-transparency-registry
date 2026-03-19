@@ -2,6 +2,9 @@
   "name": "btr-web",
   "version": "0.1.0",
   "description": "Beneficial Ownership Registry UI - Mono repo workspace",
+  "engines": {
+    "node": ">=24"
+  },
   "scripts": {
     "build": "pnpm --filter-prod btr-main-app build",
     "build:btr-main-app": "pnpm --filter-prod btr-main-app build",

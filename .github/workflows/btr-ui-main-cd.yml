@@ -25,7 +25,7 @@ jobs:
     uses: bcgov/bcregistry-sre/.github/workflows/frontend-cd.yaml@main
     with:
       target: ${{ inputs.environment }}
-      node_version: 20
+      node_version: "24"
       working_directory: "./btr-web"
       app_name: "btr-ui"
     secrets:
