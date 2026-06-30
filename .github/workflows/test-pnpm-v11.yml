@@ -31,6 +31,11 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
+      - name: Prepare workspace layers
+        run: |
+          (cd ../btr-common-components && pnpm install && pnpm exec nuxt prepare) || true
+          (cd ../btr-layouts && pnpm install && pnpm exec nuxt prepare) || true
+
       - name: Build
         run: pnpm build
 
