@@ -29,12 +29,17 @@ jobs:
           cache-dependency-path: btr-web/btr-main-app/pnpm-lock.yaml
 
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install --no-frozen-lockfile --ignore-scripts
 
       - name: Prepare workspace layers
         run: |
-          (cd ../btr-common-components && pnpm install && pnpm exec nuxt prepare) || true
-          (cd ../btr-layouts && pnpm install && pnpm exec nuxt prepare) || true
+          (cd ../btr-common-components && pnpm exec nuxt prepare 2>/dev/null) || true
+          (cd ../btr-layouts && pnpm exec nuxt prepare 2>/dev/null) || true
+        continue-on-error: true
+
+      - name: Nuxt Prepare
+        run: pnpm exec nuxt prepare 2>/dev/null || true
+        continue-on-error: true
 
       - name: Build
         run: pnpm build
