@@ -31,14 +31,21 @@ jobs:
       - name: Install dependencies
         run: pnpm install --no-frozen-lockfile --ignore-scripts
 
-      - name: Prepare workspace layers
+      - name: Prepare
         run: |
-          pnpm exec nuxt prepare --rootDir ../btr-common-components 2>/dev/null || true
-          pnpm exec nuxt prepare --rootDir ../btr-layouts 2>/dev/null || true
-        continue-on-error: true
-
-      - name: Nuxt Prepare
-        run: pnpm exec nuxt prepare 2>/dev/null || true
+          # Prepare layers first so main-app prepare can read them
+          pnpm exec nuxt prepare --rootDir ../btr-common-components || true
+          pnpm exec nuxt prepare --rootDir ../btr-layouts || true
+          # Prepare main app (may internally re-process layers and clear their .nuxt/)
+          pnpm exec nuxt prepare || true
+          # Re-prepare layers after main app, in case it cleared their .nuxt/ dirs
+          pnpm exec nuxt prepare --rootDir ../btr-common-components || true
+          pnpm exec nuxt prepare --rootDir ../btr-layouts || true
+          # Stub any still-missing .nuxt/tsconfig.json to prevent esbuild path errors
+          for dir in ../btr-common-components ../btr-layouts; do
+            mkdir -p "$dir/.nuxt"
+            [ -f "$dir/.nuxt/tsconfig.json" ] || echo '{}' > "$dir/.nuxt/tsconfig.json"
+          done
         continue-on-error: true
 
       - name: Build
