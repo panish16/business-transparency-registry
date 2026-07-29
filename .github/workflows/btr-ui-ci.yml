@@ -42,11 +42,23 @@ jobs:
       - name: Install pnpm
         uses: pnpm/action-setup@v6
         with:
-          version: 10
+          version: 11.9.0
           run_install: false
 
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install --ignore-scripts
+
+      - name: Prepare Nuxt layers
+        working-directory: btr-web
+        run: |
+          pnpm exec nuxt prepare --rootDir ./btr-common-components || true
+          pnpm exec nuxt prepare --rootDir ./btr-layouts || true
+          pnpm exec nuxt prepare --rootDir ./btr-main-app || true
+          for dir in ./btr-common-components ./btr-layouts ./btr-main-app; do
+            mkdir -p "$dir/.nuxt"
+            [ -f "$dir/.nuxt/tsconfig.json" ] || echo '{}' > "$dir/.nuxt/tsconfig.json"
+          done
+        continue-on-error: true
 
       - name: Run linting
         run: pnpm run lint
@@ -76,11 +88,23 @@ jobs:
       - name: Install pnpm
         uses: pnpm/action-setup@v6
         with:
-          version: 10
+          version: 11.9.0
           run_install: false
 
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install --ignore-scripts
+
+      - name: Prepare Nuxt layers
+        working-directory: btr-web
+        run: |
+          pnpm exec nuxt prepare --rootDir ./btr-common-components || true
+          pnpm exec nuxt prepare --rootDir ./btr-layouts || true
+          pnpm exec nuxt prepare --rootDir ./btr-main-app || true
+          for dir in ./btr-common-components ./btr-layouts ./btr-main-app; do
+            mkdir -p "$dir/.nuxt"
+            [ -f "$dir/.nuxt/tsconfig.json" ] || echo '{}' > "$dir/.nuxt/tsconfig.json"
+          done
+        continue-on-error: true
 
       - name: Set basic env
         run: |
@@ -121,11 +145,23 @@ jobs:
       - name: Install pnpm
         uses: pnpm/action-setup@v6
         with:
-          version: 10
+          version: 11.9.0
           run_install: false
 
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install --ignore-scripts
+
+      - name: Prepare Nuxt layers
+        working-directory: btr-web
+        run: |
+          pnpm exec nuxt prepare --rootDir ./btr-common-components || true
+          pnpm exec nuxt prepare --rootDir ./btr-layouts || true
+          pnpm exec nuxt prepare --rootDir ./btr-main-app || true
+          for dir in ./btr-common-components ./btr-layouts ./btr-main-app; do
+            mkdir -p "$dir/.nuxt"
+            [ -f "$dir/.nuxt/tsconfig.json" ] || echo '{}' > "$dir/.nuxt/tsconfig.json"
+          done
+        continue-on-error: true
 
       - name: Install Cypress binary
         run: pnpm cypress install
@@ -168,11 +204,23 @@ jobs:
       - name: Install pnpm
         uses: pnpm/action-setup@v6
         with:
-          version: 10
+          version: 11.9.0
           run_install: false
 
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install --ignore-scripts
+
+      - name: Prepare Nuxt layers
+        working-directory: btr-web
+        run: |
+          pnpm exec nuxt prepare --rootDir ./btr-common-components || true
+          pnpm exec nuxt prepare --rootDir ./btr-layouts || true
+          pnpm exec nuxt prepare --rootDir ./btr-main-app || true
+          for dir in ./btr-common-components ./btr-layouts ./btr-main-app; do
+            mkdir -p "$dir/.nuxt"
+            [ -f "$dir/.nuxt/tsconfig.json" ] || echo '{}' > "$dir/.nuxt/tsconfig.json"
+          done
+        continue-on-error: true
 
       - name: Build Check
         run: pnpm build
@@ -196,11 +244,22 @@ jobs:
       - name: Install pnpm
         uses: pnpm/action-setup@v6
         with:
-          version: 10
+          version: 11.9.0
           run_install: false
 
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install --ignore-scripts
+
+      - name: Prepare Nuxt layers
+        run: |
+          pnpm exec nuxt prepare --rootDir ./btr-common-components || true
+          pnpm exec nuxt prepare --rootDir ./btr-layouts || true
+          pnpm exec nuxt prepare --rootDir ./btr-main-app || true
+          for dir in ./btr-common-components ./btr-layouts ./btr-main-app; do
+            mkdir -p "$dir/.nuxt"
+            [ -f "$dir/.nuxt/tsconfig.json" ] || echo '{}' > "$dir/.nuxt/tsconfig.json"
+          done
+        continue-on-error: true
 
       - name: Build Check
         run: pnpm build:btr-main-app
